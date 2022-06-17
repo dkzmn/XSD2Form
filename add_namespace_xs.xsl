@@ -17,4 +17,10 @@
             <xsl:value-of select="concat('xs:',.)"/>
         </xsl:attribute>
     </xsl:template>
+
+    <xsl:template match="@type[not(contains(., ':'))]">
+        <xsl:attribute name="type">
+            <xsl:value-of select="concat('xs:',.)"/>
+        </xsl:attribute>
+    </xsl:template>
 </xsl:stylesheet>
