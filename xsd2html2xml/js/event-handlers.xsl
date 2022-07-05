@@ -40,8 +40,13 @@
 						newNode, button.previousElementSibling
 					);
 					
-					if ((button.parentNode.children.length - 2) == button.getAttribute("data-xsd2html2xml-max"))
+					if ((button.parentNode.children.length - 2) >= button.getAttribute("data-xsd2html2xml-max"))
 						button.setAttribute("disabled", "disabled");
+
+					if ((button.parentNode.children.length - 2) > button.getAttribute("data-xsd2html2xml-min"))
+						button.parentNode.querySelectorAll("legend > button.remove, span > button.remove").forEach(function(b) {
+							b.removeAttribute("disabled");
+						});
 						
 					if (newNode.querySelectorAll("[data-xsd2html2xml-primitive='id']").length &gt; 0)
 						updateIdentifiers();
@@ -49,11 +54,23 @@
 				
 				var clickRemoveButton = function(button) {
 					var section = button.closest("section");
-					
+					console.log(button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-min") + ' ' + button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-max") + ' ' + button.closest("section").children.length);
+
 					if ((button.closest("section").children.length - 2) == button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-min"))
 						button.closest("section").lastElementChild.click();
-					
-					if ((button.closest("section").children.length - 2) == button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-max"))
+
+					console.log(button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-min") + ' ' + button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-max") + ' ' + button.closest("section").children.length);
+
+					if ((button.closest("section").children.length - 3) == button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-min"))
+						button.closest("section").querySelectorAll("legend > button.remove, span > button.remove").forEach(function(b) {
+							b.setAttribute("disabled","disabled");
+						});
+
+
+
+					console.log(button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-min") + ' ' + button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-max") + ' ' + button.closest("section").children.length);
+
+					if ((button.closest("section").children.length - 2) >= button.closest("section").lastElementChild.getAttribute("data-xsd2html2xml-max"))
 						button.closest("section").lastElementChild.removeAttribute("disabled");
 					
 					button.closest("section").removeChild(
@@ -62,6 +79,8 @@
 					
 					if (section.querySelectorAll("[data-xsd2html2xml-primitive = 'id']").length &gt; 0)
 						updateIdentifiers();
+
+
 				}
 				
 				var clickRadioInput = function(input, name) {

@@ -13,8 +13,27 @@
 		<xsl:param name="namespace-prefix" /> <!-- contains inherited namespace prefix -->
 		
 		<xsl:param name="id" select="@name" /> <!-- contains node name, or references node name in case of groups -->
-		<xsl:param name="min-occurs" select="@minOccurs" /> <!-- contains @minOccurs attribute (for referenced elements) -->
-		<xsl:param name="max-occurs" select="@maxOccurs" /> <!-- contains @maxOccurs attribute (for referenced elements) -->
+		<xsl:param name="min-occurs">
+			<xsl:choose>
+				<xsl:when test="boolean(@minOccurs)">
+					<xsl:value-of select="@minOccurs"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="1"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:param>
+
+		<xsl:param name="max-occurs">
+			<xsl:choose>
+				<xsl:when test="boolean(@maxOccurs)">
+					<xsl:value-of select="@maxOccurs"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="1"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:param>
 		<xsl:param name="simple" /> <!-- indicates if an element allows simple content -->
 		<xsl:param name="choice" /> <!-- handles xs:choice elements and descendants; contains a unique ID for radio buttons of the same group to share -->
 		<xsl:param name="disabled">false</xsl:param> <!-- is used to disable elements that are copies for additional occurrences -->

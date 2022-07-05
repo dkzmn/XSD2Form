@@ -10,7 +10,7 @@
 		<xsl:param name="max-occurs" /> <!-- contains @maxOccurs attribute (for referenced elements) -->
 		
 		<!-- <xsl:if test="(not($min-occurs = '') or not($max-occurs = '')) and not($min-occurs = $max-occurs) and not($min-occurs = '1' and $max-occurs = '') and not($max-occurs = '1' and $min-occurs = '')"> -->
-		<xsl:if test="(number($min-occurs) or $min-occurs = '0' or number($max-occurs) or $max-occurs = 'unbounded') and not($min-occurs = $max-occurs) and not($min-occurs = '1' and $max-occurs = '') and not($max-occurs = '1' and $min-occurs = '')">
+		<xsl:if test="(number($min-occurs) or $min-occurs = '0' or number($max-occurs) or $max-occurs = 'unbounded') and not($min-occurs > $max-occurs) and not($min-occurs = '1' and $max-occurs = '1') and not($min-occurs = '1' and $max-occurs = '') and not($max-occurs = '1' and $min-occurs = '')">
 			<xsl:element name="button">
 				<xsl:attribute name="type">button</xsl:attribute>
 				<xsl:attribute name="class">remove</xsl:attribute>
@@ -27,7 +27,7 @@
 		<xsl:param name="max-occurs" /> <!-- contains @maxOccurs attribute (for referenced elements) -->
 		
 		<!-- <xsl:if test="(not($min-occurs = '') or not($max-occurs = '')) and not($min-occurs = $max-occurs) and not($min-occurs = '1' and $max-occurs = '') and not($max-occurs = '1' and $min-occurs = '')"> -->
-		<xsl:if test="(number($min-occurs) or $min-occurs = '0' or number($max-occurs) or $max-occurs = 'unbounded') and not($min-occurs = $max-occurs) and not($min-occurs = '1' and $max-occurs = '') and not($max-occurs = '1' and $min-occurs = '')">
+		<xsl:if test="(number($min-occurs) or $min-occurs = '0' or number($max-occurs) or $max-occurs = 'unbounded') and not($min-occurs > $max-occurs) and not($min-occurs = '1' and $max-occurs = '1') and not($min-occurs = '1' and $max-occurs = '') and not($max-occurs = '1' and $min-occurs = '')">
 			<xsl:element name="button">
 				<xsl:attribute name="type">button</xsl:attribute>
 				<xsl:attribute name="class">add</xsl:attribute>
