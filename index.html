@@ -71,7 +71,7 @@
                     formContent.append('<a href="./forms/'+obj.uid+'/log.html" target="_blank">Log file</a><br>');
                 },
                 error: function(data){
-                    formContent.append('<br>'+data);
+                    formContent.append('<br>'+data.statusText);
                     console.log(data);
                 }
             });

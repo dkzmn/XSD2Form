@@ -110,7 +110,12 @@
 						<!-- $choice contains a unique id and is used for the options name -->
 						<xsl:with-param name="name" select="$choice" />
 						<xsl:with-param name="description">
-							<xsl:value-of select="count(preceding-sibling::*) + 1" />
+							<xsl:if test="./xs:annotation/xs:documentation">
+								<xsl:value-of select="./xs:annotation/xs:documentation/text()" />
+							</xsl:if>
+							<xsl:if test="not(./xs:annotation/xs:documentation)">
+								<xsl:value-of select="@name" />
+							</xsl:if>
 						</xsl:with-param>
 						<xsl:with-param name="disabled" select="$disabled" />
 					</xsl:call-template>
