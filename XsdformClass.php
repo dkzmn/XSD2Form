@@ -14,7 +14,8 @@ class XsdformClass{
     public $namespaces = [];
     public $targetNamespace = '';
 
-    public function libxml_display_error($error, $ifxslt) {
+    //Создает строку об ошибке Libxml для записи в лог
+    private function libxml_display_error($error, $ifxslt) {
         $return = "<br/>\n";
         if (!$ifxslt) {
             switch ($error->level) {
@@ -47,7 +48,8 @@ class XsdformClass{
         return $return;
     }
 
-    public function libxml_display_errors($filename, $title, $ifxslt = false) {
+    //Считывает все ошибки Libxml и пишет в лог
+    private function libxml_display_errors($filename, $title, $ifxslt = false) {
         $errors = libxml_get_errors();
         file_put_contents($filename,'<h1>'.$title.'</h1>', FILE_APPEND);
         foreach ($errors as $error) {
@@ -56,7 +58,7 @@ class XsdformClass{
         libxml_clear_errors();
     }
 
-
+    //Переводит в литиницу имена файлов, namespace, schemaLocation
     public function translit(){
         foreach (glob($this -> path."*.xsd") as $file) {
             $new_file = basename($file);
@@ -106,6 +108,7 @@ class XsdformClass{
         $this -> filename = rus2translit($this -> filename);
     }
 
+    //Получаем namespace из всех xsd файлов в директории
     public function get_namespaces_from_all_files(){
         $this -> all_files_namespaces = [];
         foreach (glob($this -> path."*.xsd") as $file) {
@@ -120,6 +123,7 @@ class XsdformClass{
         }
     }
 
+    //Рекурсивно добавляем теги import для XSD файлов
     public function restore_imports($filename){
         $sxml = simplexml_load_file($this -> path.$filename);
         $namespaces = $sxml -> getDocNamespaces();
@@ -163,6 +167,7 @@ class XsdformClass{
         $dom -> save($this -> path.$filename);
     }
 
+    //Рекурсивно добавляем префикс xs
     public function add_xs($filename) {
 //        $sxml = simplexml_load_file($filename);
 //        $namespaces = $sxml->getDocNamespaces();
@@ -202,6 +207,8 @@ class XsdformClass{
         }
     }
 
+    //Добавляем корневой элемент, если в корне больше одного элемента
+    //(проверка осуществляется в xslt преобразовании)
     public function add_root_element($filename) {
         $xml = new DOMDocument;
         $xml -> load($this -> path . $filename);
@@ -213,6 +220,7 @@ class XsdformClass{
         file_put_contents($this -> path.$filename, $xml);
     }
 
+    //Основной метод, генерирует форму
     public function go() {
         $this -> xml -> load($this -> path . $this -> filename);
         $this -> libxml_display_errors($this -> path.'log.html', 'LOAD XML LOG');
@@ -223,7 +231,7 @@ class XsdformClass{
         $proc = new XSLTProcessor;
         $proc -> importStyleSheet($xsl);
         $this -> libxml_display_errors($this -> path.'log.html', 'LOAD XSL LOG');
-//
+
         $form = $proc -> transformToXML($this -> xml);
         file_put_contents($this -> path.'form.html', $form);
         $this -> libxml_display_errors($this -> path.'log.html', 'XSLT LOG', true);
@@ -253,7 +261,5 @@ class XsdformClass{
     public function __destruct(){
         file_put_contents($this -> path.'log.html','</body></html>', FILE_APPEND);
     }
-
-
 }
 ?>
