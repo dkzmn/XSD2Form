@@ -56,18 +56,17 @@
 								};
 							};
 						};
-				
+
 						if (o.getAttribute("data-xsd2html2xml-min") === o.getAttribute("data-xsd2html2xml-max")){
 							o.setAttribute("hidden","");
 							o.parentElement.querySelectorAll("legend &gt; button.remove, span &gt; button.remove").forEach(function(b) {
-								b.setAttribute("disabled","disabled");
 								b.setAttribute("hidden","");
 							});
 						}
 
 						if (o.getAttribute("data-xsd2html2xml-min") == o.parentNode.children.length - 2){
 							o.parentElement.querySelectorAll("legend &gt; button.remove, span &gt; button.remove").forEach(function(b) {
-								b.setAttribute("disabled","disabled");
+								b.setAttribute("hidden","");
 							});
 						}
 
